@@ -28,7 +28,6 @@ public class AddViewSystem : ReactiveSystem<GameEntity>
         foreach (GameEntity e in entities)
         {
             GameObject go = GameObject.CreatePrimitive(PrimitiveType.Cube);
-            
             go.transform.SetParent(viewContainer, false);
             e.AddView(go);
             go.Link(e);

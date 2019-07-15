@@ -2,6 +2,8 @@
 using Entitas.CodeGeneration.Attributes;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.AI;
+
 [Game]
 public class PositionComponent : IComponent
 {
@@ -18,7 +20,7 @@ public class DirectionComponent : IComponent
 public class ViewComponent : IComponent
 {
     public GameObject gameObject;
-    public IViewController instance;
+    //public IViewController instance;
 }
 
 [Game]
@@ -31,12 +33,14 @@ public class SpriteComponent : IComponent
 public class CubeComponent : IComponent
 {
     public string name;
+    //public GameObject instance;
 }
 
 [Game]
 public class MoverComponent : IComponent
 {
 }
+
 
 [Game]
 public class MoveComponent : IComponent
@@ -77,3 +81,15 @@ public class MouseUpComponent : IComponent
     public Vector3 position;
 }
 
+//[Meta,Unique]
+[Meta,Unique]
+public sealed class CameraServiceComponent : IComponent
+{
+    //public ICameraService instance;
+}
+
+[Game]
+public class NavComponent : IComponent
+{
+    public NavMeshAgent NavMeshAgent;
+}

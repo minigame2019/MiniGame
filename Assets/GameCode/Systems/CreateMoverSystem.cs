@@ -29,7 +29,7 @@ public class CreateMoverSystem : ReactiveSystem<InputEntity>
             Debug.Log("Create Mover");
             Debug.Log(e.mouseDown.position);
             mover.AddPosition(e.mouseDown.position);
-            mover.AddDirection(Random.Range(0, 360));
+            //mover.AddDirection(Random.Range(0, 360));
             mover.AddCube("Bee");
             //mover.AddSprite("Bee");
         }

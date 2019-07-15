@@ -13,11 +13,13 @@ public static class GameComponentsLookup {
     public const int MoveComplete = 2;
     public const int Move = 3;
     public const int Mover = 4;
-    public const int Position = 5;
-    public const int Sprite = 6;
-    public const int View = 7;
+    public const int Nav = 5;
+    public const int Position = 6;
+    public const int Sprite = 7;
+    public const int View = 8;
+    public const int ViewService = 9;
 
-    public const int TotalComponents = 8;
+    public const int TotalComponents = 10;
 
     public static readonly string[] componentNames = {
         "Cube",
@@ -25,9 +27,11 @@ public static class GameComponentsLookup {
         "MoveComplete",
         "Move",
         "Mover",
+        "Nav",
         "Position",
         "Sprite",
-        "View"
+        "View",
+        "ViewService"
     };
 
     public static readonly System.Type[] componentTypes = {
@@ -36,8 +40,10 @@ public static class GameComponentsLookup {
         typeof(MoveCompleteComponent),
         typeof(MoveComponent),
         typeof(MoverComponent),
+        typeof(NavComponent),
         typeof(PositionComponent),
         typeof(SpriteComponent),
-        typeof(ViewComponent)
+        typeof(ViewComponent),
+        typeof(ViewService)
     };
 }
