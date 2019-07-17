@@ -4,7 +4,13 @@ using UnityEngine;
 
 public class BackPackManager : MonoBehaviour
 {
+    int size;
     // Start is called before the first frame update
+    public BackPackManager(int size)
+    {
+        this.size = size;
+    }
+
     void Start()
     {
         
