@@ -50,8 +50,6 @@
 
     #endregion 枚举类型
 
-    #region 构造方法
-
     public Item(int id, string name,float Weight, ItemType itemType, string des, string sprite)
     {
         this.ID = id;
@@ -76,6 +74,19 @@
     {
         this.ID = -1;
     }
+
+    public static bool operator ==(Item i1, Item i2)
+    {
+        if (object.Equals(i1, null) || object.Equals(i2, null))
+        {
+            return object.Equals(i1, i2);
+        }
+        return i1.ID == i2.ID;
+    }
+    public static bool operator !=(Item i1, Item i2)
+    {
+        return !(i1 == i2);
+    }
 }
-    #endregion 构造方法
+
 

@@ -6,7 +6,7 @@
     public int MaxDurability;
     public int CurrentDurability;
 
-    public Equipment(int id, string name, int weight, ItemType itemType, string des, string sprite, int damage, float range, float attackspeed, int maxdurability)
+    public Equipment(int id, string name, float weight, ItemType itemType, string des, string sprite, int damage, float range, float attackspeed, int maxdurability)
         : base(id, name, weight, itemType, des, sprite)
     {
         this.Damage = damage;
@@ -38,5 +38,10 @@
         this.Damage = item.Damage;
         this.MaxDurability = item.MaxDurability;
         this.CurrentDurability = item.MaxDurability;
+    }
+
+    public override string ToString()
+    {
+        return "Equipmant"+Name;
     }
 }

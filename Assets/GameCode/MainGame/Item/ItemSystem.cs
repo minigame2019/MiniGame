@@ -4,6 +4,8 @@ using UnityEngine;
 
 public class ItemSystem : MonoBehaviour
 {
+    private AllItem allItem = AllItem.Instance;
+
     // Start is called before the first frame update
     void Start()
     {

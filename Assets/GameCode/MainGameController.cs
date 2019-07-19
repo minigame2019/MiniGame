@@ -12,11 +12,11 @@ public class MainGameController : MonoSingleton<MainGameController>
     int count = 0;
     void Awake()
     {
+        return;
         this._mapSystem = new MapSystem();
         this._characterSystem = new CharacterSystem();
         this._itemSystem = new ItemSystem();
         this._poolManager = PoolManager.Instance;
-
     }
 
 
@@ -29,17 +29,42 @@ public class MainGameController : MonoSingleton<MainGameController>
     // Update is called once per frame
     void Update()
     {
-        if (Input.GetMouseButtonDown(0))
+        return;
+        if (Input.GetKeyDown("1"))
         {
-            spawn();
+            bag.AddItem(wood);
         }
+        if (Input.GetKeyDown("2"))
+        {
+            bag.AddItem(iron);
+        }
+        if (Input.GetKeyDown("3"))
+        {
+            bag.AddItem(axe);
+        }
+        if (Input.GetKeyDown("4"))
+        {
+            bag.RemoveItem(wood);
+        }
+        if (Input.GetKeyDown("5"))
+        {
+            bag.RemoveItem(iron);
+        }
+        if (Input.GetKeyDown("6"))
+        {
+            bag.RemoveItem(axe);
+        }
+        if (Input.GetMouseButton(0))
+        {
+            Debug.Log(bag.ToString());
+        }
+
     }
 
-    void spawn()
-    {
-        GameObject temp = PoolManager.Instance.Spawn("Bullet");
-        temp.transform.SetParent(transform);
-        temp.transform.localPosition = new Vector3(count, count, count);
-        count++;
-    }
+    private BackPack bag = new BackPack(500);
+
+    Material wood = new Material(1,"wood",1,Item.ItemType.Material,"Wood Desc","Wood");
+    Material iron = new Material(2, "iron", 2, Item.ItemType.Material, "Iron Desc", "Iron");
+    Equipment axe = new Equipment(3, "axe", 10, Item.ItemType.Equipment, "Axe Desc", "Axe", 20, 1, 1, 100);
+
 }
