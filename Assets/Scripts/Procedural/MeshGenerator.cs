@@ -9,8 +9,8 @@ public static class MeshGenerator
     {
         AnimationCurve heightCurve = new AnimationCurve(_heightCurve.keys);
 
-        //int meshSimplificationIncrement = (levelOfDetail == 0) ? 1 : levelOfDetail * 2;
-        int meshSimplificationIncrement = 10;
+        int meshSimplificationIncrement = (levelOfDetail == 0) ? 1 : levelOfDetail * 2;
+        //int meshSimplificationIncrement = 10;
 
         int borderedSize = heightMap.GetLength(0);
         int meshSize = borderedSize - 2 * meshSimplificationIncrement;

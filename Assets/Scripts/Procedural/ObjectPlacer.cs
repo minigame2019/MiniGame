@@ -3,19 +3,19 @@ using System.Collections.Generic;
 using UnityEngine;
 using Pathfinding;
 
-public class WorldManager : MonoBehaviour
+public class ObjectPlacer : MonoBehaviour
 {
     public Transform target;
 
     public ProceduralPrefab[] prefabs;
 
-    // How far away to generate tiles</summary>
+    // How far away to generate prefab tiles
     public int range = 1;
 
     public int disableAsyncLoadWithinRange = 1;
 
     // World size of tiles
-    public float tileSize = 100;
+    public float tileSize = 240;
     public int subTiles = 20;
 
     // Enable static batching on generated tiles.
@@ -35,10 +35,10 @@ public class WorldManager : MonoBehaviour
     [System.Serializable]
     public class ProceduralPrefab
     {
-        // <summary>Prefab to use</summary>
+        // Prefab to use
         public GameObject prefab;
 
-        // <summary>Number of objects per square world unit</summary>
+        // Number of objects per square world unit
         public float density = 0;
 
         // Multiply by [perlin noise].
@@ -60,7 +60,7 @@ public class WorldManager : MonoBehaviour
         // Value from 0 to 1 indicating weight.
         public float random = 1;
 
-        public RotationRandomness randomRotation = RotationRandomness.AllAxes;
+        public RotationRandomness randomRotation = RotationRandomness.Y;
 
         // If checked, a single object will be created in the center of each tile
         public bool singleFixed = false;
@@ -75,7 +75,7 @@ public class WorldManager : MonoBehaviour
         // Calculate the closest tiles
         // and then recalculate the graph
         Update();
-        AstarPath.active.Scan();
+        /* AstarPath.active.Scan(); */
 
         StartCoroutine(GenerateTiles());
     }
@@ -155,11 +155,11 @@ public class WorldManager : MonoBehaviour
         int x, z;
         System.Random rnd;
 
-        WorldManager world;
+        ObjectPlacer world;
 
         public bool destroyed { get; private set; }
 
-        public ProceduralTile(WorldManager world, int x, int z)
+        public ProceduralTile(ObjectPlacer world, int x, int z)
         {
             this.x = x;
             this.z = z;

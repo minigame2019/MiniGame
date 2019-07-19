@@ -6,7 +6,7 @@ using System.Threading;
 
 public class MapGenerator : MonoBehaviour
 {
-    public enum DrawMode { NoiseMap, ColourMap, Mesh, FalloffMap};
+    public enum DrawMode { NoiseMap, ColourMap, Mesh, FalloffMap, LowPoly};
     public DrawMode drawMode;
 
     public Noise.NormalizeMode normalizeMode;
@@ -35,6 +35,8 @@ public class MapGenerator : MonoBehaviour
 
     float[,] falloffMap;
 
+    public Material groundMaterial;
+
     Queue<MapThreadInfo<MapData>> mapDataThreadInfoQueue = new Queue<MapThreadInfo<MapData>>();
     Queue<MapThreadInfo<MeshData>> meshDataThreadInfoQueue = new Queue<MapThreadInfo<MeshData>>();
 
@@ -60,6 +62,10 @@ public class MapGenerator : MonoBehaviour
         else if (drawMode == DrawMode.Mesh)
         {
             display.DrawMesh(MeshGenerator.GenerateTerrainMesh(mapData.heightMap, meshHeightMultiplier, meshHeightCurve, editorPreviewLOD), TextureGenerator.TextureFromColourMap(mapData.colourMap, mapChunkSize, mapChunkSize));
+        }
+        else if (drawMode == DrawMode.LowPoly)
+        {
+            display.DrawMesh(MeshGenerator.GenerateTerrainMesh(mapData.heightMap, meshHeightMultiplier, meshHeightCurve, editorPreviewLOD), groundMaterial);
         }
         else if (drawMode == DrawMode.FalloffMap)
         {

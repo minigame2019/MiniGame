@@ -130,8 +130,11 @@ public class EndlessTerrian : MonoBehaviour
         void OnMapDataReceived(MapData mapData){
             this.mapData = mapData;
             mapDataReceived = true;
-            Texture2D texture = TextureGenerator.TextureFromColourMap(mapData.colourMap, MapGenerator.mapChunkSize, MapGenerator.mapChunkSize);
-            meshRenderer.material.mainTexture = texture;
+            if (mapGenerator.drawMode == MapGenerator.DrawMode.ColourMap)
+            {
+                Texture2D texture = TextureGenerator.TextureFromColourMap(mapData.colourMap, MapGenerator.mapChunkSize, MapGenerator.mapChunkSize);
+                meshRenderer.material.mainTexture = texture;
+            }
             UpdateTerrianChunk();
           //  mapGenerator.RequestMeshData(mapData, onMeshDataReceived);
 
