@@ -77,6 +77,17 @@ public class EndlessTerrian : MonoBehaviour
         }
     }
 
+    public class TerrainChunkType
+    {
+        public string name;
+        public float threshold;
+        public Color color;
+        public int index;
+        public string biomeTypeName;
+        public string heightTypeName;
+        public string moistureTypeName;
+    }
+
     public class TerrianChunk
     {
         GameObject meshObject;
@@ -95,6 +106,7 @@ public class EndlessTerrian : MonoBehaviour
 
         int previousLODIndex = -1;
 
+        public TerrainChunkType[,] chosenTypes;
 
         public TerrianChunk(Vector2 coord, int size, LODInfo[] detailLevels, Transform parent, Material material)
         {

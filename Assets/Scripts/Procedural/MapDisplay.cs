@@ -19,7 +19,7 @@ public class MapDisplay : MonoBehaviour
         meshRenderer.sharedMaterial.mainTexture = texture;
     }
 
-    public void DrawMesh(MeshData meshData, Material mat)
+    public void DrawLowPolyMesh(MeshData meshData, Material mat)
     {
         meshFilter.sharedMesh = meshData.CreateMesh();
         meshRenderer.sharedMaterial = mat;

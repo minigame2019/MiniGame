@@ -65,7 +65,7 @@ public class MapGenerator : MonoBehaviour
         }
         else if (drawMode == DrawMode.LowPoly)
         {
-            display.DrawMesh(MeshGenerator.GenerateTerrainMesh(mapData.heightMap, meshHeightMultiplier, meshHeightCurve, editorPreviewLOD), groundMaterial);
+            display.DrawLowPolyMesh(MeshGenerator.GenerateTerrainMesh(mapData.heightMap, meshHeightMultiplier, meshHeightCurve, editorPreviewLOD), groundMaterial);
         }
         else if (drawMode == DrawMode.FalloffMap)
         {
@@ -134,6 +134,10 @@ public class MapGenerator : MonoBehaviour
 
         Color[] colourMap = new Color[mapChunkSize * mapChunkSize];
 
+        //float[,] uniformHeatMap = Noise.GenerateUniformNoiseMap(mapChunkSize + 2, mapChunkSize + 2, seed, noiseScale, octaves, persistance, lacunarity, centre + offset, normalizeMode);
+        float[,] uniformHeatMap = Noise.GenerateUniformNoiseMap(mapChunkSize + 2, mapChunkSize + 2, centre.y, 800, offset.y);
+        float[,] uniformMostoiseMap = Noise.GenerateNoiseMap(mapChunkSize + 2, mapChunkSize + 2, seed, noiseScale, octaves, persistance, lacunarity, centre + offset, normalizeMode);
+
         for (int y = 0; y < mapChunkSize; y++)
         {
             for (int x = 0; x < mapChunkSize; x++)
@@ -156,7 +160,7 @@ public class MapGenerator : MonoBehaviour
             }
         }
 
-        return new MapData(noiseMap, colourMap);
+        return new MapData(noiseMap, colourMap, uniformHeatMap, uniformMostoiseMap);
     }
 
     private void OnValidate()
@@ -184,6 +188,7 @@ public class MapGenerator : MonoBehaviour
         }
     }
 }
+
 [System.Serializable]
 public struct TerrianType
 {
@@ -196,11 +201,14 @@ public struct MapData
 {
     public readonly float[,] heightMap;
     public readonly Color[] colourMap;
+    public readonly float[,] heatMap;
+    public readonly float[,] moistureMap;
 
-    public MapData (float[,] heightMap, Color[] colourMap)
+    public MapData (float[,] heightMap, Color[] colourMap, float[,] heatMap, float[,] moistureMap)
     {
         this.heightMap = heightMap;
         this.colourMap = colourMap;
+        this.heatMap = heatMap;
+        this.moistureMap = moistureMap;
     }
 }
-
