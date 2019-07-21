@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using UnityEngine;
 using Pathfinding;
 
+
+
 public class ObjectPlacer : MonoBehaviour
 {
     public Transform target;
@@ -38,6 +40,19 @@ public class ObjectPlacer : MonoBehaviour
         // Prefab to use
         public GameObject prefab;
 
+        //public Wave[] waves;
+
+        //public float seed;
+        //public float frequency;
+        //public float amplitude;
+
+        //public float scale;
+
+        public float neighborRadius;
+
+        // Some offset to avoid identical density maps
+        public Vector2 perlinOffset = Vector2.zero;
+        
         // Number of objects per square world unit
         public float density = 0;
 
@@ -49,13 +64,10 @@ public class ObjectPlacer : MonoBehaviour
         // A higher value gives more distinct edges
         public float perlinPower = 1;
 
-        // Some offset to avoid identical density maps
-        public Vector2 perlinOffset = Vector2.zero;
-
         // Perlin noise scale.
         // A higher value spreads out the maximums and minimums of the density.
         public float perlinScale = 1;
-
+       
         // Multiply by [random].
         // Value from 0 to 1 indicating weight.
         public float random = 1;
@@ -229,6 +241,8 @@ public class ObjectPlacer : MonoBehaviour
                 }
                 else
                 {
+                    //float[,] noiseMap = Noise.GeneratePerlinNoiseMap(world.subTiles, world.subTiles, pref.scale, pref.perlinOffset.x, pref.perlinOffset.y, pref.seed, pref.frequency, pref.amplitude);
+                    
                     float subSize = world.tileSize / world.subTiles;
 
                     for (int sx = 0; sx < world.subTiles; sx++)
@@ -274,6 +288,48 @@ public class ObjectPlacer : MonoBehaviour
                             }
                         }
                     }
+
+                    /**for (int sx = 0; sx < world.subTiles; sx++)
+                    {
+                        for (int sz = 0; sz < world.subTiles; sz++)
+                        {
+                            float px = x + sx / (float)world.subTiles;//sx / world.tileSize;
+                            float pz = z + sz / (float)world.subTiles;//sz / world.tileSize;
+                            float value = noiseMap[sx, sz];
+
+                            //int terrainTypeIndex = terrainType.index;
+
+                            // compares the current tree noise value to the neighbor ones
+                            int neighborZBegin = (int)Mathf.Max(0, pz - pref.neighborRadius);
+                            int neighborZEnd = (int)Mathf.Min(world.subTiles - 1, pz + pref.neighborRadius);
+                            int neighborXBegin = (int)Mathf.Max(0, px - pref.neighborRadius);
+                            int neighborXEnd = (int)Mathf.Min(world.subTiles - 1, px + pref.neighborRadius);
+                            float maxValue = 0f;
+                            for (int neighborZ = neighborZBegin; neighborZ <= neighborZEnd; neighborZ++)
+                            {
+                                for (int neighborX = neighborXBegin; neighborX <= neighborXEnd; neighborX++)
+                                {
+                                    float neighborValue = noiseMap[neighborZ, neighborX];
+                                    // saves the maximum tree noise value in the radius
+                                    if (neighborValue >= maxValue)
+                                    {
+                                        maxValue = neighborValue;
+                                    }
+                                }
+                            }
+
+                            // if the current tree noise value is the maximum one, place a tree in this location
+                            if (value == maxValue)
+                            {
+                                Vector3 p = RandomInside(px, pz);
+                                GameObject ob = GameObject.Instantiate(pref.prefab, p, RandomYRot(pref)) as GameObject;
+                                ob.transform.parent = root;
+                                counter++;
+                                if (counter % 2 == 0)
+                                    yield return null;
+                            }
+                        }
+                    }**/
                 }
             }
 

@@ -18,13 +18,13 @@ public class EndlessTerrian : MonoBehaviour
 
     public static Vector2 viewerPosition;
     static MapGenerator mapGenerator;
-    int chunkSize;
+    static int chunkSize;
     int chunksVisibleInViewDst;
 
     static bool isFirstMesh = true;
 
 
-    Dictionary<Vector2, TerrianChunk> terrianChunkDictionary = new Dictionary<Vector2, TerrianChunk>();
+    static Dictionary<Vector2, TerrianChunk> terrianChunkDictionary = new Dictionary<Vector2, TerrianChunk>();
     static List<TerrianChunk> terrianChunksVisibleLastUpdate = new List<TerrianChunk>();
 
     private void Start()
@@ -42,7 +42,8 @@ public class EndlessTerrian : MonoBehaviour
     {
         viewerPosition = new Vector2(viewer.position.x, viewer.position.z) / scale;
 
-        if((viewerPositionOld - viewerPosition).sqrMagnitude > sqrViewerMoveThresholdForChunkUpdate){
+        if ((viewerPositionOld - viewerPosition).sqrMagnitude > sqrViewerMoveThresholdForChunkUpdate)
+        {
             viewerPositionOld = viewerPosition;
             UpdateVisibleChunks();
         }
@@ -50,7 +51,7 @@ public class EndlessTerrian : MonoBehaviour
 
     void UpdateVisibleChunks()
     {
-        for(int i = 0; i < terrianChunksVisibleLastUpdate.Count; i++)
+        for (int i = 0; i < terrianChunksVisibleLastUpdate.Count; i++)
         {
             terrianChunksVisibleLastUpdate[i].SetVisible(false);
         }
@@ -62,14 +63,15 @@ public class EndlessTerrian : MonoBehaviour
 
         for (int yOffset = -chunksVisibleInViewDst; yOffset <= chunksVisibleInViewDst; yOffset++)
         {
-            for(int xOffset = -chunksVisibleInViewDst; xOffset <= chunksVisibleInViewDst; xOffset++)
+            for (int xOffset = -chunksVisibleInViewDst; xOffset <= chunksVisibleInViewDst; xOffset++)
             {
                 Vector2 viewedChunkCoord = new Vector2(currentChunkCoordX + xOffset, currentChunkCoordY + yOffset);
 
                 if (terrianChunkDictionary.ContainsKey(viewedChunkCoord))
                 {
                     terrianChunkDictionary[viewedChunkCoord].UpdateTerrianChunk();
-                }else
+                }
+                else
                 {
                     terrianChunkDictionary.Add(viewedChunkCoord, new TerrianChunk(viewedChunkCoord, chunkSize, detailLevels, transform, mapMaterial));
                 }
@@ -106,7 +108,7 @@ public class EndlessTerrian : MonoBehaviour
 
         int previousLODIndex = -1;
 
-        public TerrainChunkType[,] chosenTypes;
+        public TerrainChunkType type;
 
         public TerrianChunk(Vector2 coord, int size, LODInfo[] detailLevels, Transform parent, Material material)
         {
@@ -131,7 +133,7 @@ public class EndlessTerrian : MonoBehaviour
             SetVisible(false);
 
             lodMeshes = new LODMesh[detailLevels.Length];
-            for(int i = 0; i < detailLevels.Length; i++)
+            for (int i = 0; i < detailLevels.Length; i++)
             {
                 lodMeshes[i] = new LODMesh(detailLevels[i].lod, UpdateTerrianChunk);
             }
@@ -139,7 +141,8 @@ public class EndlessTerrian : MonoBehaviour
             mapGenerator.RequestMapData(position, OnMapDataReceived);
         }
 
-        void OnMapDataReceived(MapData mapData){
+        void OnMapDataReceived(MapData mapData)
+        {
             this.mapData = mapData;
             mapDataReceived = true;
             if (mapGenerator.drawMode == MapGenerator.DrawMode.ColourMap)
@@ -148,9 +151,9 @@ public class EndlessTerrian : MonoBehaviour
                 meshRenderer.material.mainTexture = texture;
             }
             UpdateTerrianChunk();
-          //  mapGenerator.RequestMeshData(mapData, onMeshDataReceived);
+            //  mapGenerator.RequestMeshData(mapData, onMeshDataReceived);
 
-          //  set grid map data here
+            //  set grid map data here
 
         }
 
@@ -247,7 +250,7 @@ public class EndlessTerrian : MonoBehaviour
         public void RequestMesh(MapData mapData)
         {
             hasRequestedMesh = true;
-            mapGenerator.RequestMeshData(mapData,lod, OnMeshDataReceived);
+            mapGenerator.RequestMeshData(mapData, lod, OnMeshDataReceived);
         }
     }
 
