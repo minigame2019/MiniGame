@@ -158,7 +158,7 @@ namespace Terra.Terrain {
 			if (gameObject.GetComponent<MeshCollider>() == null || IsColliderDirty) {
 				MeshCollider collider = gameObject.AddComponent<MeshCollider>();
 				collider.sharedMesh = Terrain;
-
+                //collider.convex = true;
 				TerraEvent.TriggerOnMeshColliderDidForm(gameObject, collider);
 			}
 		}
