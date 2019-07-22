@@ -16,6 +16,7 @@ public class UIManager : MonoBehaviour, IUIManager {
 	//Action Variables
 	private HoverOver hoverOver = HoverOver.Land;
 	private GameObject currentObject;
+     private RaycastHit hit;
 	private ISelectedManager m_SelectedManager;
 
 	private Action m_CallBackFunction;
@@ -48,8 +49,7 @@ public class UIManager : MonoBehaviour, IUIManager {
 		hoverOver = HoverOver.Land;
 		InteractionState interactionState = InteractionState.Nothing;
 		
-		Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
-		RaycastHit hit;		
+		Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);	
 			
 		if (Physics.Raycast (ray, out hit, Mathf.Infinity, ~(1 << 16)))
 		{
@@ -72,8 +72,8 @@ public class UIManager : MonoBehaviour, IUIManager {
 	//----------------------Mouse Button Handler------------------------------------
 	private void ButtonClickedHandler(object sender, MouseEventArgs e)
 	{
-            Debug.Log("ButtonClickedHandler");
-			e.Command ();
+          Debug.Log("ButtonClickedHandler");
+		e.Command ();
 	}
 	
 	//------------------------Mouse Button Commands--------------------------------------------
@@ -119,24 +119,31 @@ public class UIManager : MonoBehaviour, IUIManager {
 	
 	public void RightButton_SingleClick(MouseEventArgs e)
 	{
-			int currentObjLayer = currentObject.layer;
-			if (currentObjLayer == 11)
-			{
-                //Normal terrian -> Move
-                IAstarAI ai = m_SelectedManager.;
-                for (int i = 0; i < ais.Length; i++)
-                {
-                    if (ais[i] != null) ais[i].SearchPath();
-                }
-            }
-            if (currentObjLayer == 10)
-            {
-                //Enenmy Unit -> Attack
-            }
-            else
-            {
-    
-            }
+		int currentObjLayer = currentObject.layer;
+		if (currentObjLayer == 12)
+		{
+               IAstarAI ai = m_SelectedManager.FirstActiveObject().GetComponent<IAstarAI>();
+               if (ai != null)
+               {
+                    ai.destination = currentObject.transform.position;
+                    ai.SearchPath();
+                    ai.onSearchPath += Update;
+               }
+          }
+          if (currentObjLayer == 10)
+          {
+               //Enenmy Unit -> Attack
+          }
+          else
+          {
+               //Normal terrian -> Move
+               IAstarAI ai = m_SelectedManager.FirstActiveObject().GetComponent<IAstarAI>();
+               if (ai != null)
+               {
+                    ai.destination = hit.transform.position;
+                    ai.SearchPath();
+               }
+          }
 	}
 	
 	public void RightButton_DoubleClick(MouseEventArgs e)

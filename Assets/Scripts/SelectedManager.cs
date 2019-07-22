@@ -33,7 +33,7 @@ public class SelectedManager : MonoBehaviour, ISelectedManager
     {
         if (!SelectedObjects.Contains(obj))
         {
-            if (obj.gameObject.layer == 8)
+            if (obj.gameObject.layer == 9)
             {
                 SelectedActiveObjects.Add((PlayerController)obj);
             }
