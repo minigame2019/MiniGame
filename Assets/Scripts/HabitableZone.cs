@@ -17,13 +17,16 @@ public class HabitableZone : MonoBehaviour
         right_bound = 100f;
         speed = 0.1f;
     }
-
+    
+    // 0 : 内
+    // + ：热带及距离
+    // - : 冷带及距离
     public float distanceWith(float x){
-        if(x > left_bound && x < right_bound){
-            return -1;
+        if(x >= left_bound && x <= right_bound){
+            return 0;
         }
-        if(x <= left_bound){
-            return left_bound - x;
+        if(x < left_bound){
+            return x - left_bound;
         }
         return x - right_bound;
     }
