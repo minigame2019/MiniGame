@@ -158,14 +158,14 @@ namespace Terra.Terrain {
 
 			foreach (TerrainTile t in tiles) {
 				t.GenerateCollider();
-                if (t.Position == Vector2.zero)
+                if (t.Position.Equals(Vector2.zero))
                 {
                     GameObject[] players = GameObject.FindGameObjectsWithTag("Player");
                     foreach (GameObject player in players)
                     {
                         player.GetComponent<CharacterController>().enabled = true;
                     }
-                    //Debug.Log("what the hell here");
+                    Debug.Log("what the hell here");
                     AstarPath.active.Scan();
                 }
                 yield return null;

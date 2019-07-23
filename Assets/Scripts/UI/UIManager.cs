@@ -3,7 +3,6 @@ using System;
 using System.Linq;
 using System.Collections;
 using System.Collections.Generic;
-using Pathfinding;
 
 public class UIManager : MonoBehaviour, IUIManager {
 	
@@ -72,7 +71,6 @@ public class UIManager : MonoBehaviour, IUIManager {
 	//----------------------Mouse Button Handler------------------------------------
 	private void ButtonClickedHandler(object sender, MouseEventArgs e)
 	{
-          Debug.Log("ButtonClickedHandler");
 		e.Command ();
 	}
 	
@@ -84,11 +82,9 @@ public class UIManager : MonoBehaviour, IUIManager {
 			
 		if (currentObjLayer == 9)
 		{
-            Debug.Log("UIManager -- LeftButton_SingleClickDown");
-            //Debug.Log("UIManager -- LeftButton_SingleClickDown");
             if (m_SelectedManager.IsObjectSelected(currentObject))
 			{
-                
+                m_SelectedManager.DeselectObject(currentObject.GetComponent<PlayerController>());
             }
 		}
 	}
@@ -103,18 +99,24 @@ public class UIManager : MonoBehaviour, IUIManager {
 	
 	public void LeftButton_SingleClickUp(MouseEventArgs e)
 	{
-			if (m_Placed)
-			{
-				m_Placed = false;
-				return;
-			}
+		if (m_Placed)
+		{
+			m_Placed = false;
+			return;
+		}
 			
-			//We've left clicked, have we left clicked on a unit?
-			int currentObjLayer = currentObject.layer;
-			if (/*!m_GuiManager.Dragging && */currentObjLayer == 9)
-			{			
-				m_SelectedManager.AddObject (currentObject.GetComponent<PlayerController>());
-			}
+		//We've left clicked, have we left clicked on a unit?
+		int currentObjLayer = currentObject.layer;
+        m_SelectedManager.DeselectAll();
+        if (/*!m_GuiManager.Dragging && */currentObjLayer == 9)
+		{			
+			m_SelectedManager.AddObject (currentObject.GetComponent<PlayerController>());
+            Debug.Log("UIManager -- LeftButton_SingleClickUp");
+        }
+        else
+        {
+            //m_SelectedManager.DeselectAll();
+        }
 	}
 	
 	public void RightButton_SingleClick(MouseEventArgs e)
@@ -122,28 +124,20 @@ public class UIManager : MonoBehaviour, IUIManager {
 		int currentObjLayer = currentObject.layer;
 		if (currentObjLayer == 12)
 		{
-               IAstarAI ai = m_SelectedManager.FirstActiveObject().GetComponent<IAstarAI>();
-               if (ai != null)
-               {
-                    ai.destination = currentObject.transform.position;
-                    ai.SearchPath();
-                    ai.onSearchPath += Update;
-               }
-          }
-          if (currentObjLayer == 10)
-          {
-               //Enenmy Unit -> Attack
-          }
-          else
-          {
-               //Normal terrian -> Move
-               IAstarAI ai = m_SelectedManager.FirstActiveObject().GetComponent<IAstarAI>();
-               if (ai != null)
-               {
-                    ai.destination = hit.transform.position;
-                    ai.SearchPath();
-               }
-          }
+            
+        }
+        if (currentObjLayer == 10)
+        {
+            //Enenmy Unit -> Attack
+        }
+        else
+        {
+            var ai = m_SelectedManager.FirstActiveObject().GetComponent<m_AIDestinationSetter>();
+            if (ai != null && ai.enabled)
+            {
+                ai.target = e.WorldPosClick;
+            }
+        }
 	}
 	
 	public void RightButton_DoubleClick(MouseEventArgs e)

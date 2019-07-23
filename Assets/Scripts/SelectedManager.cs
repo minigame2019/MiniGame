@@ -31,6 +31,7 @@ public class SelectedManager : MonoBehaviour, ISelectedManager
 
     public void AddObject(PlayerController obj)
     {
+        
         if (!SelectedObjects.Contains(obj))
         {
             if (obj.gameObject.layer == 9)

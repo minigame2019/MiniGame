@@ -34,23 +34,23 @@ public partial class EventsManager {
 		{
 			Ray ray = Camera.main.ScreenPointToRay (Input.mousePosition);
 			RaycastHit hit;
-			if (Physics.Raycast (ray, out hit, Mathf.Infinity, 1 << 8 | 1 << 9 | 1 << 12 | 1 << 13))
-			{
+			//if (Physics.Raycast (ray, out hit, Mathf.Infinity, 1 << 8 | 1 << 9 | 1 << 12 | 1 << 13))
+           // {
 				//Right Clicked on unit or building
-				if (MouseClick != null) 
-				{
-					MouseClick(this, new RightButton_Handler((int)Input.mousePosition.x, (int)Input.mousePosition.y, 1, hit.collider.gameObject.GetComponent<InteractableItemBase>()));
-				}
-			}
-			else if (Physics.Raycast (ray, out hit, Mathf.Infinity, 1 << 11 | 1 << 18))
+				//if (MouseClick != null) 
+				//{
+					//MouseClick(this, new RightButton_Handler((int)Input.mousePosition.x, (int)Input.mousePosition.y, 1, hit.collider.gameObject.GetComponent<InteractableItemBase>()));
+				//}
+		//	}
+			if (Physics.Raycast (ray, out hit, Mathf.Infinity, 1))
 			{
 				//Right clicked on terrain
 				if (MouseClick != null) 
 				{
-					MouseClick(this, new RightButton_Handler((int)Input.mousePosition.x, (int)Input.mousePosition.y, 1, hit.point));
-				}
-			}
-		}
+                    MouseClick(this, new RightButton_Handler((int)Input.mousePosition.x, (int)Input.mousePosition.y, 1, hit.point));
+                }
+            }
+        }
 		
 		
 		if (checkForDoubleClick)
