@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Weapon : InventoryItemBase, IDamageSource,IDurability
+public class Weapon : InventoryItemBase, IDamageSource//,IDurability
 {
     [Range(1, 100)]
     public int DamagePerHit = 20;

@@ -121,6 +121,12 @@ public class UIManager : MonoBehaviour, IUIManager {
 	
 	public void RightButton_SingleClick(MouseEventArgs e)
 	{
+        //未选中人物
+        if(m_SelectedManager.ActiveObjectsCount()==0)
+        {
+            return;
+        }
+
 		int currentObjLayer = currentObject.layer;
 		if (currentObjLayer == 12)
 		{
