@@ -22,7 +22,8 @@ public class InventoryEventArgs : EventArgs
         Slot = slot;
         Item = item;
     }
-    public InventorySlot Slot;
-    public InventoryItemBase Item;
+    public InventorySlot Slot { get; set; }
+    public InventoryItemBase Item { get; set; }
+    public int InstanceId { get; set; }
 }
 

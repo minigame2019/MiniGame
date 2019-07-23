@@ -10,6 +10,8 @@ public class Inventory : MonoBehaviour
     private int slotCount = 0;
     private IList<InventorySlot> mSlots = new List<InventorySlot>();
     public IList<InventorySlot> MSlots { get { return mSlots; } }
+
+
     public event EventHandler<InventoryEventArgs> ItemAdded;
     public event EventHandler<InventoryEventArgs> ItemRemoved;
     public event EventHandler<InventoryEventArgs> ItemUsed;
@@ -37,7 +39,6 @@ public class Inventory : MonoBehaviour
     public Inventory()
     {       
     }
-
     private InventorySlot FindStackableSlot(InventoryItemBase item)
     {
         foreach (InventorySlot slot in mSlots)
@@ -47,7 +48,6 @@ public class Inventory : MonoBehaviour
         }
         return null;
     }
-
     public int GetItemCount(InteractableItemBase item)
     {
         foreach (InventorySlot slot in mSlots)
@@ -80,16 +80,14 @@ public class Inventory : MonoBehaviour
             return;
         }
         InventorySlot freeSlot = FindStackableSlot(item);
-        if (freeSlot == null)
-        {
-            freeSlot = FindNextEmptySlot();
-        }
         if (freeSlot != null)
         {
             freeSlot.AddItem(item,1);
             if (ItemAdded != null)
             {
-                ItemAdded(this, new InventoryEventArgs(item));
+                InventoryEventArgs inv = new InventoryEventArgs(item);
+                inv.InstanceId = GetInstanceID();
+                ItemAdded(this, inv);
             }
             RemoveEmptySlot();
         }
@@ -101,14 +99,15 @@ public class Inventory : MonoBehaviour
             inv.AddItem(item,1);
             if(SlotAdded != null)
             {
-                SlotAdded(this, new InventoryEventArgs(inv,item));
+                InventoryEventArgs invarg = new InventoryEventArgs(item);
+                invarg.InstanceId = GetInstanceID();
+                SlotAdded(this, invarg);
             }
         }
     }
     private void AddEmptySlot()
     {
         mSlots.Add(new InventorySlot());
-
     }
 
     private void RemoveEmptySlot()
@@ -141,13 +140,18 @@ public class Inventory : MonoBehaviour
                 if (slot.IsEmpty)
                 {
                     mSlots.Remove(slot);
-                    SlotRemoved(this,new InventoryEventArgs());
+                    InventoryEventArgs invargs = new InventoryEventArgs();
+                    invargs.InstanceId = GetInstanceID();
+                    SlotRemoved(this,invargs);
                     break;
 
                 }
                 if (ItemRemoved != null)
                 {
-                    ItemRemoved(this, new InventoryEventArgs(item));
+                    slot.RecentChange = true;
+                    InventoryEventArgs invargs = new InventoryEventArgs();
+                    invargs.InstanceId = GetInstanceID();
+                    ItemRemoved(this, invargs);
                 }
                 break;
             }

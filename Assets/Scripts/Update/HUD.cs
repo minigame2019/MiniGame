@@ -47,10 +47,25 @@ public class HUD : MonoBehaviour {
         slot.RecentChange = false;
     }
 
+    public void UpdatePersonCard()
+    {
+        Transform personCards = transform.Find("PersonCards");
+
+
+    }
+
     int columns = 3;
     private void Inventory_SlotAdded(object sender,InventoryEventArgs inventoryEventArgs)
     {
-        Transform inventoryPanel = transform.Find("BackPackScrollView");
+        Transform personCards = transform.Find("PersonCards");
+        foreach (Transform personCard in personCards)
+        {
+            Transform invTrans = personCard.GetChild(1).GetChild(1).GetChild(0).GetChild(0);
+
+        }
+
+
+        Transform inventoryPanel = transform.Find("PersonCard_0");
         inventoryPanel = inventoryPanel.GetChild(0).GetChild(0);
         GameObject toAdd = Instantiate(Resources.Load("Slot_1") as GameObject);
         InventoryComponent i = toAdd.AddComponent<InventoryComponent>();
@@ -161,8 +176,7 @@ public class HUD : MonoBehaviour {
                     image.sprite = null;
                 }
                 e.Item.Slot.RecentChange = false;
-            }
-           
+            }          
         }
     }
 
@@ -200,12 +214,45 @@ public class HUD : MonoBehaviour {
         mIsMessagePanelOpened = false;
     }
 
+    private const float TalkTime = 3.0f;
+    private float TalkLastTime = TalkTime;
+
     public void Update()
     {
-
+        TalkLastTime -= Time.deltaTime;
+        if (TalkLastTime <= 0)
+        {
+            Talk toTalk = AllTalk.Pop();
+            TalkUpdate(toTalk);
+            TalkLastTime = TalkTime;
+        }
     }
-    public void TalkUpdate(Sprite sprite,string name,string content)
+
+    public class Talk
     {
+        public Sprite sprite;
+        public string name;
+        public string content;
+
+        public Talk(Sprite s, string n,string c)
+        {
+            sprite = s;
+            name = n;
+            content = c;
+        }
+    }
+    Stack<Talk> AllTalk = new Stack<Talk>();
+    public void AddTalk(Sprite sprite, string name, string content)
+    {
+        AllTalk.Push(new Talk(sprite, name, content));
+    }
+
+
+    public void TalkUpdate(Talk talk)
+    {
+        Sprite sprite = talk.sprite;
+        string name = talk.name;
+        string content = talk.content;
         Transform talkPanel = transform.Find("UTalkPanel");
         Transform con = talkPanel.Find("Text");
         Text text = con.GetComponent<Text>();
