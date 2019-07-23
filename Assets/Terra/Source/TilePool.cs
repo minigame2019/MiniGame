@@ -158,10 +158,20 @@ namespace Terra.Terrain {
 
 			foreach (TerrainTile t in tiles) {
 				t.GenerateCollider();
-				yield return null;
-			}
-
-			yield return new WaitForSeconds(delay);
+                if (t.Position.Equals(Vector2.zero))
+                {
+                    GameObject[] players = GameObject.FindGameObjectsWithTag("Player");
+                    foreach (GameObject player in players)
+                    {
+                        player.GetComponent<CharacterController>().enabled = true;
+                    }
+                    Debug.Log("what the hell here");
+                    AstarPath.active.Scan();
+                }
+                yield return null;
+            }
+            //AstarPath.active.Scan();
+            yield return new WaitForSeconds(delay);
 		}
 
 		/// <summary>
@@ -223,6 +233,6 @@ namespace Terra.Terrain {
 
 				queuedTiles--;
 			}
-		}
+        }
 	}
 }
