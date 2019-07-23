@@ -1,6 +1,15 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using System;
+
+public class PlayerEventArgs
+{
+    public string Name { get; set; }
+
+    public Sprite sprite { get; set; }
+
+}
 
 public class PlayerAttribute : MonoBehaviour
 {
@@ -20,6 +29,7 @@ public class PlayerAttribute : MonoBehaviour
 
     public int Pressure;
 
+    public event EventHandler<PlayerEventArgs> AttributeChanged;
     public void Talk(string content)
     {
         Hud.AddTalk(sprite,name,content);

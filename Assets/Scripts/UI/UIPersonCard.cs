@@ -4,7 +4,7 @@ using UnityEngine.UI;
 public class UIPersonCard : MonoBehaviour
 {
     Inventory Inventory;
-    //Player  
+    PlayerAttribute Player;  
 
 
     // Use this for initialization
@@ -14,13 +14,24 @@ public class UIPersonCard : MonoBehaviour
         Inventory.ItemRemoved += Inventory_ItemRemoved;
         Inventory.SlotAdded += Inventory_SlotAdded;
         Inventory.SlotRemoved += Inventory_SlotRemoved;
-        //player.AttributeChanged += Player_AttributeChanged;
+        Player.AttributeChanged += Player_AttributeChanged;
     }
 
     // Update is called once per frame
     void Update()
     {
 
+    }
+    void Player_AttributeChanged(object sender,PlayerEventArgs playerEventArgs)
+    {
+        Transform imagePanel = transform.Find("Image");
+        Image img = imagePanel.GetComponent<Image>();
+        img.sprite = playerEventArgs.sprite;
+        //update person image
+
+        Transform playerPanel = transform.Find("Content").Find("Attribute");
+
+        //update person attribute
     }
 
     void Inventory_ItemAdded(object sender, InventoryEventArgs inventoryEventArgs)
@@ -75,9 +86,6 @@ public class UIPersonCard : MonoBehaviour
                 else
                     txtCount.text = "";
 
-                // Store a reference to the item
-                //itemDragHandler.Item ;
-                // TODO : fix this bug above
                 inv.inventorySlot.RecentChange = false;
             }
         }
@@ -109,7 +117,6 @@ public class UIPersonCard : MonoBehaviour
                 txtCount.text = "";
 
             // Store a reference to the item
-            itemDragHandler.Item = inventoryEventArgs.Item;
             inventoryEventArgs.Item.Slot.RecentChange = false;
         }        
     }
