@@ -204,4 +204,19 @@ public class HUD : MonoBehaviour {
     {
 
     }
+    public void TalkUpdate(Sprite sprite,string name,string content)
+    {
+        Transform talkPanel = transform.Find("UTalkPanel");
+        Transform con = talkPanel.Find("Text");
+        Text text = con.GetComponent<Text>();
+        text.text = content;
+
+        Transform nameLabel = talkPanel.Find("Actor_Label");
+        Text text1 = nameLabel.GetComponent<Text>();
+        text1.text = name;
+
+        Transform img = talkPanel.Find("ActorImage");
+        Image i = img.GetComponent<Image>();
+        i.sprite = sprite;
+    }
 }

@@ -165,7 +165,7 @@ namespace Terra.Terrain {
                     {
                         player.GetComponent<CharacterController>().enabled = true;
                     }
-                    Debug.Log("what the hell here");
+                    //Debug.Log("what the hell here");
                     AstarPath.active.Scan();
                 }
                 yield return null;
